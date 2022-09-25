@@ -1,0 +1,21 @@
+.items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid 1px #dddddd;
+  border-radius: 10px;
+  margin: 0px 0px 5px 0px;
+}
+
+.row {
+  border: solid 1px #dddddd;
+  margin: 10px;
+  border: 6px;
+}
