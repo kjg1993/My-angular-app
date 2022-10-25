@@ -1,6 +1,7 @@
 
  <a class="panel-body contact item" 
- (click)="onSelected()">
+ routerLink="{{ contact.id }}"
+ routerLinkActive="active">
       <h3 class="pad-left-right">{{ contact.name }}</h3>
       <figure class="pull-right">
         <img

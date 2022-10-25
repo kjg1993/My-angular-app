@@ -8,8 +8,8 @@
             <h3>{{ contact.name }}</h3>
               <img [src]="contact.imageUrl" alt="{{ contact.name }}">
             <span class="pull-right">
-                <a routerLink="edit"><button class="btn btn-primary m-1 detail">Edit</button></a>
-                <a ><button class="btn btn-danger m-1 detail">Delete</button></a>
+                <a routerLink="edit"><button class="btn btn-primary m-1 detail" routerLink="edit">Edit</button></a>
+                <a ><button class="btn btn-danger m-1 detail" (click)="onDelete()">Delete</button></a>
             </span>
           </div>
         </div>
