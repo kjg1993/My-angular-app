@@ -9,14 +9,15 @@ import { ContactService } from 'src/app/contacts/contact.service';
   styleUrls: ['./message-item.component.css']
 })
 export class MessageItemComponent implements OnInit {
-  messageSender: string | undefined;
   @Input() message: Message;
+
+  messageSender: string;
 
   constructor(private contactService: ContactService) { }
 
   ngOnInit(): void {
-    const contact: Contact | null = this.contactService.getContact(this.message.sender);
-    this.messageSender = contact?.name;
+    const contact: Contact = this.contactService.getContact(this.message.sender);
+    this.messageSender = contact.name;
   }
 
 }

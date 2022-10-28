@@ -8,27 +8,28 @@ import { MOCKCONTACTS } from './MOCKCONTACTS';
 })
 
 export class ContactService {
-  // static getContacts(): Contact[] {
-  //   throw new Error('Method not implemented.');
-  // }
+  contactSelectedEvent = new EventEmitter<Contact>();
+  contactChangedEvent = new EventEmitter<Contact[]>()
+  
   contacts: Contact[] = [];
 
   constructor() {
     this.contacts = MOCKCONTACTS;
    }
-
+   
    getContacts(): Contact[]{
-    return this.contacts.slice();
+     return this.contacts.slice();
   }
 
-   getContact(id: string){
-    for(let contact of this.contacts.slice()){
-       if (contact.id === id) {
-          return contact
-       } else {
-        return null
-       }
+   getContact(id: string): Contact{
+ 
+    for (let index = 0; index < this.contacts.length; index++) {
+      const element = this.contacts[index];
+      if (element.id === id) {
+         return element;
+      }
     }
+    return null;
    }
    
    deleteContact(contact: Contact){
@@ -44,7 +45,5 @@ export class ContactService {
       
   }
 
-   contactSelectedEvent = new EventEmitter<Contact>();
-   contactChangedEvent = new EventEmitter<Contact[]>()
 
    }

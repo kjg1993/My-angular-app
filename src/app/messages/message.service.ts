@@ -18,14 +18,15 @@ export class MessageService {
     return this.messages.slice();
   }
 
-  getMessage(id: string): Message | null {
-    for (let message of this.messages) {
-      if (message.id == id) {
-        return message;
-      } 
-        return null;
-        
+  getMessage(id: string): Message {
+
+    for(let index = 0; index < this.messages.length; index++){
+      const element = this.messages[index];
+      if(element.id === id){
+        return element;
       }
+    }
+    return null;
    }
 
    addMessage(message: Message): void {
