@@ -12,27 +12,30 @@ import { MessageService } from '../message.service';
 })
 export class MessageEditComponent implements OnInit {
  @Output() addMessageEvent = new EventEmitter<Message>();
- @ViewChild('subject') subect: ElementRef;
- @ViewChild('msgText') msgText: ElementRef;
+//  @ViewChild('subject') subect: ElementRef;
+//  @ViewChild('msgText') msgText: ElementRef;
  currentSender: string = 'seth';
+ subject: any = '';
+ msgText: any = '';
 
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
 
-  onSendMessage(){
-    const subject = this.subect.nativeElement.value;
-    const msgText = this.msgText.nativeElement.value;
+  onSendMessage(event: any){
+    const subject = event.target.value;
+    const msgText = event.target.value;
+    console.log(subject)
     const message = new Message('1', subject, msgText, this.currentSender);
-    this.addMessageEvent.emit(message);
+    // this.addMessageEvent.emit(message);
     this.messageService.addMessage(message);
 
   }
 
   onClear() {
-    this.subect.nativeElement.value = "";
-    this.subect.nativeElement.value = "";
+    // this.subject.nativeElement.value = "";
+    // this.subject.nativeElement.value = "";
   }
 
 }

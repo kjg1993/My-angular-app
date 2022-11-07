@@ -7,7 +7,7 @@
     <label for="subject">Subject</label>
     <input
     type="text"
-    id="subject"
+     
     class="form-control"
     size="120"
     max="120">
@@ -27,7 +27,7 @@
     </div>
     <div class="row">
     <div class="col-xs-12">
-    <button class="btn btn-success btn-space" type="submit" (click)="onSendMessage()">Send</button>
+    <button class="btn btn-success btn-space" type="submit" (click)="onSendMessage($event)">Send</button>
     <button class="btn btn-danger btn-space" type="button" (click)="onClear()">Clear</button>
     </div>
     </div>
