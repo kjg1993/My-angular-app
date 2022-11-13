@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import {Subject } from 	'rxjs'
 import { Document } from './document.model';
@@ -15,14 +16,29 @@ export class DocumentService {
   maxDocumentId: number;
   documentsListClone: Document[];
 
-  constructor() { 
-    this.documents = MOCKDOCUMENTS;
+  constructor(private http: HttpClient) { 
+   // this.documents = MOCKDOCUMENTS;
     this.maxDocumentId = this.getMaxId();
   }
 
-  getDocuments(): Document[]{
+  getDocuments(): Document[] {
+    this.http.get('https://myangular-app-b7249-default-rtdb.firebaseio.com/documents.json')
+      .subscribe((documents: Document[] ) => {
+          this.documents = documents;
+          this.maxDocumentId = this.getMaxId();
+          documents.sort((a: Document, b: Document) => {
+            if (a < b) return -1;
+            else if (a > b) return 1;
+            else return 0;
+          });
+          const clonedDocuments = documents.slice()
+          this.documentListChangedEvent.next(clonedDocuments);
+      }, (error: any) => {
+          console.log(error);
+      }
+    )
     return this.documents.slice();
-  }
+  } 
 
   getDocument(id: string ){
     for(let document of this.documents.slice()){
@@ -98,5 +114,21 @@ export class DocumentService {
     this.documentsListClone = this.documents.slice()
     this.documentListChangedEvent.next(this.documentsListClone);
   }
+
+  storeDocuments(documentsListClone: Document[]) {
+    const documentsJson = JSON.stringify(documentsListClone);
+    const httpHeader = new HttpHeaders(
+      {'Content-Type': 'application/json'},
+    );
+    this.http.put(
+      'https://myangular-app-b7249-default-rtdb.firebaseio.com/documents.json',
+       documentsJson, 
+       {headers: httpHeader}
+    ).subscribe(
+      () => {
+        this.documentListChangedEvent.next(documentsListClone);
+      }
+    )
+  } 
 
 }

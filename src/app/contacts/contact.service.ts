@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Contact} from "./contact.model";
 import { Subject } from "rxjs";
 import { Injectable, EventEmitter } from '@angular/core';
@@ -19,13 +20,29 @@ export class ContactService {
   contactListClone: Contact[];
 
 
-  constructor() {
-    this.contacts = MOCKCONTACTS;
+  constructor(private http: HttpClient) {
+    //this.contacts = MOCKCONTACTS;
    }
    
-   getContacts(): Contact[]{
-     return this.contacts.slice();
-  }
+   getContacts(): Contact[] {
+    this.http.get('https://myangular-app-b7249-default-rtdb.firebaseio.com/contacts.json')
+      .subscribe((contacts: Contact[] ) => {
+          this.contacts = contacts;
+          this.maxContactId = this.getMaxId();
+          contacts.sort((a: Contact, b: Contact) => {
+            if (a < b) return -1;
+            else if (a > b) return 1;
+            else return 0;
+          });
+          const clonedContacts = contacts.slice()
+          this.contactChangedEvent.next(clonedContacts);
+      }, (error: any) => {
+          console.log(error);
+      }
+    )
+    return this.contacts.slice();
+  } 
+
 
    getContact(id: string): Contact{
  
@@ -85,4 +102,20 @@ export class ContactService {
       return this.maxId;
     }
   }
+
+  storeContacts(contactsListClone: Contact[]) {
+    const contactsJson = JSON.stringify(contactsListClone);
+    const httpHeader = new HttpHeaders(
+      {'Content-Type': 'application/json'},
+    );
+    this.http.put(
+      'https://myangular-app-b7249-default-rtdb.firebaseio.com/contacts.json',
+       contactsJson, 
+       {headers: httpHeader}
+    ).subscribe(
+      () => {
+        this.contactChangedEvent.next(contactsListClone);
+      }
+    )
+  } 
 }

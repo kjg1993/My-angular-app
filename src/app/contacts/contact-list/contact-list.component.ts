@@ -11,25 +11,10 @@ import { ContactService } from '../contact.service';
 export class ContactListComponent implements OnInit {
 
  contacts: Contact[] = [];
- private contactSubscription: Subscription;
-  // contacts: Contact[] = [
-  //   new Contact(
-  //     '1',
-  //     'R. Kent Jackson',
-  //     'jacksonk@byui.edu',
-  //     '208-496-3771',
-  //     '../../assets/images/jacksonk.jpg',
-  //     null
-  //   ),
-  //   new Contact(
-  //     '2',
-  //     'Rex Barzee',
-  //     'barzeer@byui.edu',
-  //     '208-496-3768',
-  //     '../../assets/images/barzeer.jpg',
-  //     null
-  //   ),
-  // ]; 
+ contactSubscription: Subscription;
+ term: string;
+
+ 
 
   constructor(private contactServices: ContactService ) {}
 
@@ -48,5 +33,9 @@ export class ContactListComponent implements OnInit {
   ngOnDestroy(){
     this.contactSubscription.unsubscribe();
   } 
+
+  search(value: string){
+    this.term = value;
+  }
 
 }
