@@ -11,12 +11,11 @@ import { MessageService } from '../message.service';
   styleUrls: ['./message-edit.component.css']
 })
 export class MessageEditComponent implements OnInit {
- @Output() addMessageEvent = new EventEmitter<Message>();
-//  @ViewChild('subject') subect: ElementRef;
-//  @ViewChild('msgText') msgText: ElementRef;
+  @ViewChild('subject') subject: ElementRef;
+  @ViewChild('msgText') msgText: ElementRef;
+  @Output() addMessageEvent = new EventEmitter<Message>();
  currentSender: string = 'seth';
- subject: any = '';
- msgText: any = '';
+
 
   constructor(private messageService: MessageService) { }
 
@@ -28,14 +27,14 @@ export class MessageEditComponent implements OnInit {
     const msgText = event.target.value;
     console.log(subject)
     const message = new Message('1', subject, msgText, this.currentSender);
-    // this.addMessageEvent.emit(message);
+   this.addMessageEvent.emit(message);
     this.messageService.addMessage(message);
 
   }
 
   onClear() {
-    // this.subject.nativeElement.value = "";
-    // this.subject.nativeElement.value = "";
+     this.subject.nativeElement.value = "";
+    this.msgText.nativeElement.value = "";
   }
 
 }
